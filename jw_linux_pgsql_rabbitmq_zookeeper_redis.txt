@@ -1,0 +1,1584 @@
+http://www.cnblogs.com/fengpingfan/p/4581556.html
+前端联调机器192.168.18.35（Administrator\123456）,
+把在本机开发环境maven install的R和RA工程的target下的war包放到相应webapp下重启服务
+
+
+[root@rabbit228 ~]# history
+    1  ip add
+    2  ping www.baidu.com
+    3  shutdown -h now
+    4  vi /etc/sysconfig/network-scripts/ifcfg-eno16780032 
+    5  systemctl restart network.service
+    6  ping www.baidu.com
+    7  shutdown -h now
+    8  ip add
+    9  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+   10  systemctl stop firewalld.service && systemctl disable firewalld.service
+   11  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+   12  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+   13  mkdir -p /mnt/{app,data,log,ops,web}
+   14  yum -y install epel-release
+   15  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   16  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   17  shutdown -r now
+   18  ulimit -a
+   19  mkdir /mnt/ops/app
+   20  cd /mnt/ops/app/
+   21  rz
+   22  ls
+   23  rz
+   24  tar xzf jdk-8u73-linux-x64.tar.gz && mv jdk1.8.0_73 /mnt/app/java && chown -R root.root /mnt/app/java
+   25  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh && echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh && echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh && echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh && source  /etc/profile
+   26  java -version
+   27  ls
+   28  tar xzf zookeeper-3.4.6.tar.gz 
+   29  mv zookeeper-3.4.6 /mnt/app/zookeeper
+   30  ls /mnt/app/zookeeper/
+   31  ls -l /mnt/app/zookeeper/ 
+   32  ls -l /mnt/app/zookeeper/bin/
+   33  chown -R root.root /mnt/app/zookeeper
+   34  ls -l /mnt/app/zookeeper/bin/
+   35  ls -l /mnt/app/zookeeper/conf/
+   36  ls -l /mnt/app/zookeeper/
+   37  ls -l /mnt/app/zookeeper/bin/
+   38  echo 'export ZK_HOME=/mnt/app/zookeeper' | tee /etc/profile.d/zookeeper.sh
+   39  echo 'export ZK_BIN=${ZK_HOME}/bin' | tee -a /etc/profile.d/zookeeper.sh
+   40  echo 'export PATH=${ZK_BIN}:$PATH' | tee -a /etc/profile.d/zookeeper.sh
+   41  source /etc/profile
+   42  mkdir -p /mnt/{data,log}/zookeeper
+   43  chown -R wisdom.wisdom /mnt/{data,log}/zookeeper
+   44  cat > /mnt/app/zookeeper/conf/zookeeper-env.sh <<EOF
+   45  ZOO_LOG_DIR=/mnt/log/zookeeper
+   46  EOF
+   47  cat > /mnt/data/zookeeper/myid <<EOF
+   48  228
+   49  EOF
+   50  cat > /mnt/app/zookeeper/conf/zoo.cfg <<EOF
+   51  tickTime=2000
+   52  initLimit=5
+   53  syncLimit=2
+   54  clientPort=2181
+   55  clientPortAddress=192.168.18.228
+   56  maxClientCnxns=2000
+   57  autopurge.snapRetainCount=5
+   58  autopurge.purgeInterval=3
+   59  dataDir=/mnt/data/zookeeper
+   60  dataLogDir=/mnt/log/zookeeper
+   61  server.228=192.168.18.228:3181:4181
+   62  server.229=192.168.18.229:3181:4181
+   63  server.230=192.168.18.230:3181:4181
+   64  EOF
+   65  ls -l /mnt/app/zookeeper/
+   66  ls -l /mnt/app/zookeeper/conf/
+   67  vim /mnt/app/zookeeper/conf/log4j.properties 
+   68  chown -R wisdom.wisdom /mnt/app/zookeeper/conf
+   69  ls -l /mnt/data/
+   70  ls -l /mnt/log/
+   71  su - wisdom
+   72  pwd
+   73  ls
+   74  tar xzf otp_src_19.2.tar.gz 
+   75  ls
+   76  tar xzf otp_src_19.2.tar.gz 
+   77  rm otp_src_19.2.tar.gz 
+   78  rz
+   79  ls
+   80  tar xzf otp_src_19.2.tar.gz 
+   81  rm otp_src_19.2.tar.gz 
+   82  ls
+   83  rz
+   84  tar xzf otp_src_19.2.tar.gz 
+   85  cd otp_src_19.2
+   86  ./configure --prefix=/mnt/app/erlang
+   87  yum -y install xsltproc
+   88  yum search  fop
+   89  yum -y install  fop
+   90  yum -y install libxslt
+   91  yum -y install erlang-wx
+   92  ps -ef|grep elang
+   93  ps -ef|grep erlang
+   94  ps -ef|grep yum
+   95  make clean 
+   96  ./configure --prefix=/mnt/app/erlang
+   97  make 
+   98  make install
+   99  ls -l /mnt/app/
+  100  ls -l /mnt/app/erlang/
+  101  ls -l /mnt/app/erlang/bin/
+  102  ls -l /mnt/app/erlang/lib/
+  103  ls -l /mnt/app/erlang/lib/erlang/
+  104  echo 'export ERLANG_HOME=/mnt/app/erlang' |tee /etc/profile.d/erlang.sh
+  105  echo 'export ERLANG_BIN=$ERLANG_HOME/bin' |tee -a /etc/profile.d/erlang.sh 
+  106  echo 'export PATH=$ERLANG_BIN:$PATH' |tee -a /etc/profile.d/erlang.sh  
+  107  source /etc/profile
+  108  echo 'export ERLANG_HOME=/mnt/app/erlang' | tee /etc/profile.d/erlang.sh && echo 'export ERLANG_BIN=${ERLANG_HOME}/bin' | tee -a /etc/profile.d/erlang.sh && echo 'export PATH=${ERLANG_BIN}:$PATH' | tee -a /etc/profile.d/erlang.sh  && source /etc/profile
+  109  ls -l /mnt/app/erlang/
+  110  ls -l /mnt/app/erlang/lib/
+  111  ls -l /mnt/app/erlang/lib/erlang/
+  112  ls -l /mnt/app/erlang/lib/erlang/bin/
+  113  cd ..
+  114  ls
+  115  ls -l
+  116  ls
+  117  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+  118  vim /etc/sysctl.conf 
+  119  sysctl -p
+  120  vim /etc/sysctl.conf 
+  121  sysctl -p
+  122  ls
+  123  ls -l
+  124  rz
+  125  ls -l
+  126  xz -d  rabbitmq-server-3.6.6.tar.xz 
+  127  ls
+  128  tar xf rabbitmq-server-3.6.6.tar 
+  129  du -sh *
+  130  cd rabbitmq-server-3.6.6
+  131  ls
+  132  ls -l
+  133  less LICENSE
+  134  ls -l
+  135  ls scripts/
+  136  ls -l
+  137  ls upgrade/
+  138  ls -l
+  139  ls deps/
+  140  ls -l
+  141  vim Makefile 
+  142  yum -y install nmap-ncat
+  143  ip add
+  144  yum search nmap-ncat
+  145  yum -y install nmap-ncat
+  146  cd /mnt/ops/app/
+  147  ls
+  148  ls -l
+  149  rm -rf rabbitmq-server-3.6.6*
+  150  ls
+  151  ls -l
+  152  rz
+  153  ls -l
+  154  unzip -d rabbitmq-server-3.6.6.tar.xz 
+  155  xz -d rabbitmq-server-3.6.6.tar.xz 
+  156  tar xf rabbitmq-server-3.6.6.tar 
+  157  cd rabbitmq-server-3.6.6
+  158  ls
+  159  ls -l
+  160  cd ..
+  161  ls -l
+  162  mkdir -p /mnt/log/rabbitmq
+  163  mkdir -p /mnt/data/rabbitmq/mnesia/rabbit
+  164  ls
+  165  cd rabbitmq-server-3.6.6
+  166  ls
+  167  vim Makefile 
+  168  make --help
+  169  cd ..
+  170  ls
+  171  ls -l
+  172  xz -d rabbitmq-server-generic-unix-3.6.6.tar.xz 
+  173  ls
+  174  tar xf rabbitmq-server-generic-unix-3.6.6.tar 
+  175  ls
+  176  cd rabbitmq-server-generic-unix-3.6.6.tar 
+  177  ls -l
+  178  ls rabbitmq_server-3.6.6/
+  179  ls rabbitmq_server-3.6.6/sbin/
+  180  ls rabbitmq-server-3.6.6
+  181  ls -l
+  182  ls rabbitmq_server-3.6.6
+  183  cd rabbitmq_server-3.6.6
+  184  ls -l
+  185  ls etc/
+  186  ls etc/rabbitmq/
+  187  tree .
+  188  ls
+  189  ls -l
+  190  rpm -qa jinterface
+  191  rpm -qa |grep jinterface
+  192  ls -l /mnt/app/
+  193  sysctl fs.file-max
+  194  ls -l /mnt/data/
+  195  ls -l /mnt/data/rabbitmq/
+  196  ls -l /mnt/data/rabbitmq/mnesia/
+  197  ls -l /mnt/data/rabbitmq/mnesia/rabbit/
+  198  su - wisdom
+  199  ls -l /mnt/app/
+  200  cd /mnt/ops/app/
+  201  ls -l
+  202  rm -rf rabbitmq_server-3.6.6/ rabbitmq-server-3.6.6
+  203  tar xf rabbitmq-server-generic-unix-3.6.6.tar 
+  204  mv rabbitmq_server-3.6.6 /mnt/app/rabbitmq
+  205  chown -R root.root /mnt/app/rabbitmq
+  206  echo 'export RABBITMQ_HOME=/mnt/app/rabbitmq' | tee /etc/profile.d/rabbitmq.sh
+  207  echo 'export RABBITMQ_BIN=${RABBITMQ_HOME}/sbin' | tee -a /etc/profile.d/rabbitmq.sh
+  208  echo 'export PATH=${RABBITMQ_BIN}:$PATH' | tee -a /etc/profile.d/rabbitmq.sh
+  209  source /etc/profile
+  210  touch /mnt/app/rabbitmq/etc/rabbitmq/rabbitmq-env.conf
+  211  touch /mnt/app/rabbitmq/etc/rabbitmq/rabbitmq.config
+  212  chown -R wisdom.wisdom /mnt/app/rabbitmq/etc/
+  213  mkdir -p /mnt/{data,log}/rabbitmq
+  214  mkdir -p /mnt/data/rabbitmq/mnesia
+  215  chown -R wisdom.wisdom /mnt/{data,log}/rabbitmq
+  216  hostname
+  217  ip add
+  218  su - wisdom
+  219  192.168.18.228
+  220  hostname 192.168.18.228
+  221  su - wisdom
+  222  hostname
+  223  hostname rabbit228
+  224  echo 'rabbit228' |tee /etc/hostname 
+  225  hostname rabbit228
+  226  echo '192.168.18.228  rabbit228' |tee -a /etc/hosts
+  227  su - wisdom
+  228  echo '192.168.18.229  rabbit229' |tee -a /etc/hosts
+  229  echo '192.168.18.230  rabbit230' |tee -a /etc/hosts
+  230  su - wisdom
+  231  history'
+  232  history
+
+
+
+
+[root@rabbit230 ~]# history
+    1  df -h
+    2  ping www.baidu.com
+    3  ip add
+    4  shutdown -h now
+    5  ip add
+    6  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+    7  systemctl stop firewalld.service && systemctl disable firewalld.service
+    8  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+    9  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+   10  mkdir -p /mnt/{app,data,log,ops,web}
+   11  yum -y install epel-release
+   12  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   13  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   14  shutdown -r now
+   15  ulimit -a
+   16  mkdir /mnt/ops/app
+   17  cd /mnt/ops/app/
+   18  rz
+   19  tar xzf jdk-8u73-linux-x64.tar.gz && mv jdk1.8.0_73 /mnt/app/java && chown -R root.root /mnt/app/java
+   20  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh && echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh && echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh && echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh && source  /etc/profile
+   21  java -version
+   22  ls
+   23  tar xzf zookeeper-3.4.6.tar.gz && mv zookeeper-3.4.6 /mnt/app/zookeeper && chown -R root.root /mnt/app/zookeeper
+   24  echo 'export ZK_HOME=/mnt/app/zookeeper' | tee /etc/profile.d/zookeeper.sh && echo 'export ZK_BIN=${ZK_HOME}/bin' | tee -a /etc/profile.d/zookeeper.sh && echo 'export PATH=${ZK_BIN}:$PATH' | tee -a /etc/profile.d/zookeeper.sh  && source /etc/profile
+   25  mkdir -p /mnt/{data,log}/zookeeper
+   26  chown -R wisdom.wisdom /mnt/{data,log}/zookeeper
+   27  cat > /mnt/app/zookeeper/conf/zookeeper-env.sh <<EOF
+   28  ZOO_LOG_DIR=/mnt/log/zookeeper
+   29  EOF
+   30  cat > /mnt/data/zookeeper/myid <<EOF
+   31  230
+   32  EOF
+   33  cat > /mnt/app/zookeeper/conf/zoo.cfg <<EOF
+   34  tickTime=2000
+   35  initLimit=5
+   36  syncLimit=2
+   37  clientPort=2181
+   38  clientPortAddress=192.168.18.230
+   39  maxClientCnxns=2000
+   40  autopurge.snapRetainCount=5
+   41  autopurge.purgeInterval=3
+   42  dataDir=/mnt/data/zookeeper
+   43  dataLogDir=/mnt/log/zookeeper
+   44  server.228=192.168.18.228:3181:4181
+   45  server.229=192.168.18.229:3181:4181
+   46  server.230=192.168.18.230:3181:4181
+   47  EOF
+   48  su - wisdom
+   49  ls
+   50  tar xzf otp_src_19.2.tar.gz 
+   51  ls
+   52  rm otp_src_19.2.tar.gz 
+   53  rz
+   54  tar xzf otp_src_19.2.tar.gz 
+   55  cd otp_src_19.2
+   56  ./configure --prefix=/mnt/app/erlang
+   57  make clean
+   58  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop
+   59  ./configure --prefix=/mnt/app/erlang
+   60  make
+   61  make install
+   62  echo 'export ERLANG_HOME=/mnt/app/erlang' | tee /etc/profile.d/erlang.sh && echo 'export ERLANG_BIN=${ERLANG_HOME}/bin' | tee -a /etc/profile.d/erlang.sh && echo 'export PATH=${ERLANG_BIN}:$PATH' | tee -a /etc/profile.d/erlang.sh  && source /etc/profile
+   63  erl -V
+   64  cd ..
+   65  ls
+   66  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+   67  rz
+   68  yum -y install nmap-ncat
+   69  ip add
+   70  yum -y install nmap-ncat
+   71  su - wisdom
+   72  cd /mnt/ops/app/
+   73  ls
+   74  xz -d rabbitmq-server-generic-unix-3.6.6.tar.xz 
+   75  tar xf rabbitmq-server-generic-unix-3.6.6.tar 
+   76   mv rabbitmq_server-3.6.6 /mnt/app/rabbitmq
+   77  chown -R root.root /mnt/app/rabbitmq
+   78  echo 'export RABBITMQ_HOME=/mnt/app/rabbitmq' | tee /etc/profile.d/rabbitmq.sh
+   79  echo 'export RABBITMQ_BIN=${RABBITMQ_HOME}/sbin' | tee -a /etc/profile.d/rabbitmq.sh
+   80  echo 'export PATH=${RABBITMQ_BIN}:$PATH' | tee -a /etc/profile.d/rabbitmq.sh
+   81  source /etc/profile
+   82  touch /mnt/app/rabbitmq/etc/rabbitmq/rabbitmq-env.conf
+   83  touch /mnt/app/rabbitmq/etc/rabbitmq/rabbitmq.config
+   84  chown -R wisdom.wisdom /mnt/app/rabbitmq/etc/
+   85  mkdir -p /mnt/{data,log}/rabbitmq
+   86  mkdir -p /mnt/data/rabbitmq/mnesia
+   87  chown -R wisdom.wisdom /mnt/{data,log}/rabbitmq
+   88  hostname rabbit230
+   89  echo 'rabbit230' |tee /etc/hostname
+   90  echo '192.168.18.228  rabbit228' |tee -a /etc/hosts
+   91  echo '192.168.18.229  rabbit229' |tee -a /etc/hosts  
+   92  echo '192.168.18.230  rabbit230' |tee -a /etc/hosts
+   93  su - wisdom
+   94  clear
+   95  history
+[root@rabbit230 ~]# 
+
+
+
+
+
+######################225##############################
+
+  1  ping www.baidu.com
+    2  shutdown -h now
+    3  ip add
+    4  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+    5  systemctl stop firewalld.service && systemctl disable firewalld.service
+    6  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+    7  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+    8  mkdir -p /mnt/{app,data,log,ops,web}
+    9  yum -y install epel-release
+   10  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   11  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   12  shutdown -r now
+   13  ulimit -a
+   14  mkdir /mnt/ops/app
+   15  cd /mnt/ops/app/
+   16  rz
+   17  tar xzf jdk-8u73-linux-x64.tar.gz 
+   18  mv jdk1.8.0_73 /mnt/app/java
+   19  chown -R root.root /mnt/app/java
+   20  echo 'JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   21  echo 'JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   22  echo 'CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   23  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   24  echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   25  echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   26  echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh
+   27  source  /etc/profile
+   28  java -version
+   29  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop
+   30  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+   31  yum -y install nmap-ncat
+   32  cd /mnt/app/
+   33  ls
+   34  ls -l
+   35  rz
+   36  ls
+   37  tar xzf tomcat.pms.tar.gz 
+   38  ls
+   39  ls -l
+   40  rm -rf tomcat.pms.tar.gz 
+   41  ls
+   42  mkdir -p /mnt/log/tomcat/tomcat
+   43  mkdir /mnt/web/webapp
+   44  chown -R wisdom.wisdom /mnt/log/tomcat
+   45  chown -R wisdom.wisdom /mnt/web/webapp/
+   46  ls
+   47  cd /mnt/ops/app/
+   48  ls
+   49  rz
+   50  mv 31* /mnt/web/webapp/
+   51  chown -R wisdom.wisdom /mnt/web/webapp/
+   52  vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+   53  cd /mnt/app/tomcat/
+   54  ls
+   55  cd ..
+   56  ls
+   57  mv tomcat tomc
+   58  mkdir tomcat
+   59  mv tomc tomcat/tomcat
+   60  ls -l
+   61  ls -l tomcat/
+   62  ls -l tomcat/tomcat/
+   63  cd
+   64  vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+   65  chown -R  wisdom.wisdom /mnt/app/tomcat
+   66  su - wisdom
+   67  vim /etc/hosts
+   68  cd /mnt
+   69  ls
+   70  cd web/
+   71  ls
+   72  cd webapp/
+   73  ls
+   74  netstat -nlp
+   75  netstat -ntlp
+   76  ps -elf|grep tomcat
+
+  109  cd webapp/
+  110  ls
+  111  ls -ll
+  112  history
+[root@localhost webapp]# vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+[root@localhost webapp]# 
+
+
+
+###############################224###########################
+
+   1  ip add
+    2  ping www.baidu.com
+    3  shutdown -h now
+    4  ip add
+    5  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+    6  systemctl stop firewalld.service && systemctl disable firewalld.service
+    7  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+    8  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+    9  mkdir -p /mnt/{app,data,log,ops,web}
+   10  yum -y install epel-release
+   11  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   12  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   13  shutdown -r now
+   14  ulimit -a
+   15  mkdir /mnt/ops/app
+   16  cd /mnt/ops/app/
+   17  rz
+   18  tar xzf jdk-8u73-linux-x64.tar.gz
+   19  mv jdk1.8.0_73 /mnt/app/java
+   20  ls -l /mnt/app/
+   21  ls -l /mnt/app/java/
+   22  chown -R root.root /mnt/app/java
+   23  echo 'JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   24  echo 'JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   25  echo 'CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   26  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   27  echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   28  echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   29  echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh
+   30  source  /etc/profile
+   31  java -version
+   32  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop
+   33  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+   34  yum -y install nmap-ncat
+   35  ls
+   36  cd /mnt/ops/app/
+   37  ls
+   38  ls -l /mnt/app/
+   39  ls -l /mnt/app/java/
+   40  tar xzf apache-tomcat-8.0.41.tar.gz 
+   41  mkdir /mnt/app/tomcat
+   42  mv apache-tomcat-8.0.41 /mnt/app/tomcat/tomcat
+   43  cd /mnt/app/tomcat/tomcat/bin/
+   44  ls
+   45  ls -l
+   46  vim catalina.sh 
+   47  mkdir -p /mnt/log/tomcat/tomcat
+   48  chown -R wisdom.wisdom /mnt/log/tomcat/
+   49  vim catalina.sh 
+   50  ls -l
+   51  cd ..
+   52  ls
+   53  pwd
+   54  ls -l
+   55  cd conf/
+   56  ls
+   57  ls -l
+   58  vim server.xml 
+   59  ls -l /mnt/web/
+   60  ls -l
+   61  vim server.xml 
+   62  ls /mnt/log/tomcat/tomcat/
+   63  vim server.xml 
+   64  ls -l
+   65  vim server.xml 
+   66  mkdir /mnt/web/tomcat
+   67  mkdir /mnt/web/webapp
+   68  chown -R wisdom.wisdom /mnt/web/webapp
+   69  rm -rf /mnt/web/tomcat/
+   70  ls
+   71  ls -l /mnt/web/
+   72  ls -l /mnt/web/webapp/
+   73  cd
+   74  cd /mnt/ops/app/
+   75  ls
+   76  ls -l /mnt/app/
+   77  ls
+   78  cd /mnt/app/tomcat/
+   79  ls
+   80  ls -l
+   81  du -sh *
+   82  ls tomcat/
+   83  tar czf tomcat.pms.tar.gz tomcat
+   84  sz tomcat.pms.tar.gz 
+   85  rm tomcat.pms.tar.gz 
+   86  ls
+   87  cd /mnt/ops/app/
+   88  ls
+   89  rz
+   90  ls
+   91  mv 31* /mnt/web/webapp/
+   92  chown -R wisdom.wisdom /mnt/web/webapp/
+   93  su - wisdom
+   94   vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+   95  su - wisdom
+   96  chown wisdom.wisdom /mnt/app/tomcat/
+   97  chown -R  wisdom.wisdom /mnt/app/tomcat/
+   98  su - wisdom
+   99  ps -ef|grep tomcat
+  100  netstat -lntp
+  101  ls
+  102  cd /mnt/app/tomcat/
+  103  ls
+  104  cd tomcat/
+  105  ls
+  106  cd conf/
+  107  ls
+  108  ls -l
+  109  cd ..
+  110  cd conf/
+  111  ls
+  112  vim web.xml 
+  113  ls -l /mnt/web/
+  114  ls -l /mnt/web/webapp/
+  115  ls -l /mnt/app/
+  116  ls -l /mnt/app/tomcat/
+  117  ls -l /mnt/app/tomcat/tomcat/
+  118  ls -l /mnt/app/tomcat/tomcat/w
+  119  ls -l /mnt/app/tomcat/tomcat/webapps/
+  120  cp -r /mnt/app/tomcat/tomcat/webapps/* /mnt/web/webapp/
+  121  ls -l /mnt/web/webapp/
+  122  chown -R wisdom.wisdom /mnt/web/webapp/
+  123  su - wisdom
+  124  ls
+  125  cd /mnt/ops/app/
+  126  ls
+  127  rz
+  128  hostname
+  129  cd /mnt
+  130  ls
+  131  cd web
+  132  ls
+  133  cd webapp/
+  134  ls
+  135  ls -ll
+  136  pwd
+  137  cd /opt
+  138  ls
+  139  whereis tomcar
+  140  whereis tomcat
+  141  cd /mnt
+  142  ls
+  143  cd app
+  144  ls
+  145  cd tomcat
+  146  ls
+  147  cd tomcat/
+  148  ls
+  149  cd logs
+  150  ls
+  151  tail -f catalina.2017-03-07.log 
+  152  clear
+  153  netstat -ntlp
+  154  ls
+  155  tail -f catalina.2017-03-07.log 
+  156  clear
+  157  tail -f catalina.2017-03-07.log 
+  158  cat /etc/hosts
+  159  tail -f catalina.2017-03-07.log 
+  160  clear
+  161  tail -f catalina.2017-03-07.log 
+  162  ls
+  163  ls -ll
+  164  tail -f 200 catalina.2017-03-07.log 
+  165  clear
+  166  ls
+  167  cd /opt
+  168  ls
+  169  clear
+  170  ls
+  171  cd /opt
+  172  ls
+  173  history
+  174  clear
+  175  cd /mnt
+  176  ls
+  177  cd app
+  178  ls
+  179  cd tomcat/
+  180  ls
+  181  cd tomcat/
+  182  ls
+  183  cd logs
+  184  ls
+  185  cd ..
+  186  ls
+  187  cd bin
+  188  ls
+  189  clear
+  190  sz
+  191  ls
+  192  sz startup.sh 
+  193  history
+  194  clear
+  195  ls
+  196  cd /mnt
+  197  ls
+  198  cd log
+  199  ls
+  200  cd tomcat/
+  201  ls
+  202  cd tomcat/
+  203  ls
+  204  tail -f catalina.out 
+  205  clear
+  206  ps -elf|grep tomcat
+  207  cd /mnt
+  208  ls
+  209  cd app
+  210  ls
+  211  cd ..
+  212  ls
+  213  cd ops
+  214  ls
+  215  cd app
+  216  ls
+  217  cd ..
+  218  ls
+  219  cd ..
+  220  ls
+  221  cd data/
+  222  ls
+  223  cd ..
+  224  ls
+  225  cd web/
+  226  ls
+  227  cd ..
+  228  ls
+  229  cd app
+  230  ls
+  231  cd java/
+  232  ls
+  233  clear
+  234  ls
+  235  cd /mnt
+  236  whereis ngnix
+  237  netstat -ntlp
+  238  cat /etc/hosts
+  239  hostname
+  240  vi /etc/hosts
+  241  sudo su wisdom
+  242  ip add
+  243  vim /etc/hosts
+  244  ip add
+  245  ls
+  246  cd /mnt/ops/app/
+  247  ls
+  248  ls -l
+  249  ls -l /mnt/app/
+  250  ls -l /mnt/app/tomcat/
+  251  ls -l /mnt/app/tomcat/tomcat/
+  252  ls -l /mnt/web/
+  253  ls -l /mnt/web/webapp/
+  254  cp -r 31* /mnt/web/
+  255  ls -l /mnt/web/
+  256  ls -l /mnt/web/webapp/
+  257  cd /mnt/web/
+  258  ls
+  259  mv 31* webapp/
+  260  ls -l webapp/
+  261  chown -R wisdom.wisdom webapp/31*
+  262  ls webapp/
+  263  ls
+  264  ls -l webapp/
+  265  su - wisdom
+  266  mkdir -p /mnt/log/web/webapp
+  267  chown -R wisdom.wisdom /mnt/log/web
+  268  su - wisdom
+  269  cd /mnt/ops/app/
+  270  ls
+  271  rz
+  272  tar xzf zookeeper-3.4.6.tar.gz 
+  273  mv zookeeper-3.4.6 /mnt/app/zookeeper
+  274  chown -R wisdom.wisdom /mnt/app/zookeeper
+  275  mkdir -p /mnt/{data,log}/zookeeper
+  276  chown -R wisdom.wisdom /mnt/{data,log}/zookeeper
+  277  echo 'export ZK_HOME=/mnt/app/zookeeper' | tee /etc/profile.d/zookeeper.sh
+  278  echo 'export ZK_BIN=${ZK_HOME}/bin' | tee -a /etc/profile.d/zookeeper.sh              
+  279  echo 'export PATH=${ZK_BIN}:$PATH' | tee -a /etc/profile.d/zookeeper.sh           
+  280  source /etc/profile
+  281  cat > /mnt/app/zookeeper/conf/zoo.cfg <<EOF
+  282  tickTime=2000
+  283  initLimit=10
+  284  syncLimit=5
+  285  clientPort=2181
+  286  clientPortAddress=10.0.2.113
+  287  dataDir=/mnt/data/zookeeper
+  288  dataLogDir=/mnt/log/zookeeper
+  289  autopurge.snapRetainCount=3
+  290  autopurge.purgeInterval=1
+  291  EOF
+  292  ip add
+  293  vim /mnt/app/zookeeper/conf/zoo.cfg 
+  294  cat > /mnt/app/zookeeper/conf/zookeeper-env.sh <<EOF
+  295  ZOO_LOG_DIR=/mnt/log/zookeeper
+  296  EOF
+  297  cat > /mnt/app/zookeeper/conf/java.env <<EOF
+  298  export JAVA_HOME=/mnt/app/java
+  299  export JVMFLAGS="-Xms1024m -Xmx1024m $JVMFLAGS"   
+  300  EOF
+  301  chown -R wisdom.wisdom /mnt/app/zookeeper/
+  302  su - wisdom
+  303  vim /etc/hosts
+  304  telnet 192.168.18.209 6379
+  305  telnet 192.168.18.209 22
+  306  telnet 192.168.18.209 6379
+  307  ls -l /mnt/app/
+  308  telnet 192.168.18.2226 6379
+  309  telnet 192.168.18.226 6379
+  310  vim /etc/hosts
+  311  telnet 192.168.18.209 6997
+  312  ls
+  313  su - wisdom
+  314  vim /etc/hosts
+  315  cat /etc/hosts
+  316  ping redisCluster
+  317  su - wisdom
+  318  cd /mnt
+  319  ls
+  320  cd app
+  321  ls
+  322  cd ..
+  323  ls
+  324  cd ops
+  325  ls
+  326  cd app/
+  327  ls
+  328  cd ..
+  329  ls
+  330  cd app
+  331  ls
+  332  whereis ngnix
+  333  clear
+  334  ls
+  335  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel nmap-ncat
+  336  cd /mnt
+  337  clear
+  338  ls
+  339  cd app
+  340  ls
+  341  chmod 777 nginx-1.10.2.tar.gz 
+  342  ls -ll
+  343  tar xzf nginx-1.10.2.tar.gz
+  344  ls
+  345  cd nginx-1.10.2
+  346  ls
+  347  ip add
+  348  ./configure --prefix=/mnt/app/nginx --user=nginx --group=nginx --with-select_module --with-poll_module --with-threads --with-file-aio --with-http_ssl_module --with-http_stub_status_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_geoip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_degradation_module --with-google_perftools_module --with-pcre --with-libatomic
+  349  make
+  350  make install
+  351  mkdir -p /mnt/log/nginx
+  352  chown -R nginx.nginx /mnt/log/nginx
+  353  useradd -s /sbin/nologin nginx
+  354  chown -R nginx.nginx /mnt/log/nginx
+  355  make
+  356  make install
+  357  cd ..
+  358  ls
+  359  cd nginx
+  360  ls
+  361  clear
+  362  ls
+  363  netstat -ntlp
+  364  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  365  ls
+  366  cd conf/
+  367  ls
+  368  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  369  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  370  cat /mnt/app/nginx/logs/nginx.pid
+  371  cd lo
+  372  cd ..
+  373  cd logs/
+  374  ls
+  375  cat error.log 
+  376  ps -ef | grep nginx
+  377  pkill -9 nginx
+  378  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  379  ls -ll
+  380  rm -f nginx.pid 
+  381  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  382  cd ..
+  383  cd conf/
+  384  ls
+  385  vi nginx.conf
+  386  ls
+  387  cd ..
+  388  ls
+  389  cd ..
+  390  ls
+  391  java -version
+  392  netstat -ntlp
+  393  nginx -c /mnt/app/nginx/nginx.conf
+  394  ls
+  395  cd nginx
+  396  ls
+  397  cd conf/
+  398  ls
+  399  pwd
+  400  cd ..
+  401  ls
+  402  cd ..
+  403  cd sbin
+  404  ls
+  405  cd nginx
+  406  ls
+  407  cd sbin
+  408  ls
+  409  nginx -c /mnt/app/nginx/nginx.conf
+  410  ./nginx -c /mnt/app/nginx/nginx.conf
+  411  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  412  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  413  sudo su wisdom
+  414  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  415  tail -f  /mnt/log/nginx/nginx.log
+  416  cat  /mnt/log/nginx/nginx.log
+  417  ps -elf|grp ngnix
+  418  ps -elf|grep ngnix
+  419  cat /mnt/app/nginx/logs/nginx.pid
+  420  echo 34863  > /mnt/app/nginx/logs/nginx.pid
+  421  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  422  ps -elf
+  423  ps -elf|grep ngnix
+  424  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  425  rm -f /mnt/app/nginx/logs/nginx.pid
+  426  cd /mnt/app/nginx/logs
+  427  ls
+  428  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  429  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf
+  430  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  431  ls
+  432  netstat -ntlp
+  433  firewall-cmd --zone=public --add-port=80/tcp --permanent
+  434  ls
+  435  cat /etc/resolv.conf
+  436  clear
+  437  cd /mnt/app/nginx/logs
+  438  ls
+  439  cat nginx.pid 
+  440  netstat -ntlp
+  441  cd /mnt
+  442  ls
+  443  cd app
+  444  ls
+
+
+
+    1  ping www.baidu.com
+    2  shutdown -h now
+    3  ip add
+    4  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+    5  systemctl stop firewalld.service && systemctl disable firewalld.service
+    6  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+    7  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+    8  mkdir -p /mnt/{app,data,log,ops,web}
+    9  yum -y install epel-release
+   10  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   11  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   12  shutdown -r now
+   13  ulimit -a
+   14  mkdir /mnt/ops/app
+   15  cd /mnt/ops/app/
+   16  rz
+   17  tar xzf jdk-8u73-linux-x64.tar.gz 
+   18  mv jdk1.8.0_73 /mnt/app/java
+   19  chown -R root.root /mnt/app/java
+   20  echo 'JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   21  echo 'JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   22  echo 'CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   23  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   24  echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   25  echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   26  echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh
+   27  source  /etc/profile
+   28  java -version
+   29  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop
+   30  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+   31  yum -y install nmap-ncat
+   32  cd /mnt/app/
+   33  ls
+   34  ls -l
+   35  rz
+   36  ls
+   37  tar xzf tomcat.pms.tar.gz 
+   38  ls
+   39  ls -l
+   40  rm -rf tomcat.pms.tar.gz 
+   41  ls
+   42  mkdir -p /mnt/log/tomcat/tomcat
+   43  mkdir /mnt/web/webapp
+   44  chown -R wisdom.wisdom /mnt/log/tomcat
+   45  chown -R wisdom.wisdom /mnt/web/webapp/
+   46  ls
+   47  cd /mnt/ops/app/
+   48  ls
+   49  rz
+   50  mv 31* /mnt/web/webapp/
+   51  chown -R wisdom.wisdom /mnt/web/webapp/
+   52  vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+   53  cd /mnt/app/tomcat/
+   54  ls
+   55  cd ..
+   56  ls
+   57  mv tomcat tomc
+   58  mkdir tomcat
+   59  mv tomc tomcat/tomcat
+   60  ls -l
+   61  ls -l tomcat/
+   62  ls -l tomcat/tomcat/
+   63  cd
+   64  vim /mnt/app/tomcat/tomcat/bin/catalina.sh
+   65  chown -R  wisdom.wisdom /mnt/app/tomcat
+   66  su - wisdom
+   67  vim /etc/hosts
+   68  history
+
+
+
+
+[root@localhost ~]# history
+    1  ping www.baidu.com
+    2  shutdown -h now
+    3  ip add
+    4  setenforce 0 && sed -i s/'SELINUX=enforcing'/'SELINUX=disabled'/g /etc/selinux/config
+    5  systemctl stop firewalld.service && systemctl disable firewalld.service
+    6  echo "* - nofile 65536" | tee -a /etc/security/limits.conf && echo "* - nproc  65536" | tee -a /etc/security/limits.conf && sed -i /4096/d /etc/security/limits.d/20-nproc.conf
+    7  useradd wisdom && echo '1)]LZ?n-,yw3}Gi' | passwd --stdin wisdom
+    8  mkdir -p /mnt/{app,data,log,ops,web}
+    9  yum -y install epel-release
+   10  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel
+   11  yum -y install git lftp ntpdate vim wget telnet dstat tree lrzsz net-tools
+   12  shutdown -r now
+   13  ulimit -a
+   14  mkdir /mnt/ops/app
+   15  cd /mnt/ops/app/
+   16  rz
+   17  ls
+   18  tar xzf jdk-8u73-linux-x64.tar.gz 
+   19  mv jdk1.8.0_73 /mnt/app/java
+   20  chown -R root.root /mnt/app/java
+   21  echo 'JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   22  echo 'JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   23  echo 'CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   24  echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh
+   25  echo 'export JAVA_HOME=/mnt/app/java' | tee /etc/profile.d/java.sh
+   26   echo 'export JRE_HOME=${JAVA_HOME}/jre' | tee -a /etc/profile.d/java.sh
+   27  echo 'export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib' | tee -a /etc/profile.d/java.sh
+   28  echo 'export PATH=${JAVA_HOME}/bin:$PATH' | tee -a /etc/profile.d/java.sh
+   29  source  /etc/profile
+   30  java -version
+   31  ls
+   32  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop
+   33  yum -y install gcc gcc-c++ make cmake bison libtool autoconf automake zip unzip bzip2 zlib zlib-devel openssl openssl-devel pcre pcre-devel bison-devel ncurses-devel tcl tcl-devel perl-Digest-SHA1 GeoIP GeoIP-devel gperftools gperftools-devel libatomic_ops-devel gtest gtest-devel glibc-devel unixODBC-devel fop libperl libpython readline readline-devel
+   34  yum -y install nmap-ncat
+   35  cd /mnt/ops/app/
+   36  ls
+   37  rz
+   38  ls
+   39  ls -l
+   40  ls /mnt/app/
+   41  tar xzf nginx-1.10.2.tar.gz 
+   42  cd nginx-1.10.2
+   43  ip add
+   44  ./configure --prefix=/mnt/app/nginx --user=nginx --group=nginx --with-select_module --with-poll_module --with-threads --with-file-aio --with-http_ssl_module --with-http_stub_status_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_geoip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_degradation_module --with-google_perftools_module --with-pcre --with-libatomic
+   45  make
+   46  make install
+   47  mkdir -p /mnt/log/nginx
+   48  chown -R nginx.nginx /mnt/log/nginx
+   49  useradd -s /sbin/nologin nginx
+   50  chown -R nginx.nginx /mnt/log/nginx
+   51  cd ..
+   52  ls -l
+   53  tar xzf node-v6.9.1-linux-x64.tar.gz 
+   54  mv node-v6.9.1-linux-x64 /mnt/app/node
+   55  echo 'export NODE_HOME=/mnt/app/node' | tee /etc/profile.d/node.sh
+   56  echo 'export NODE_PATH=${NODE_HOME}/lib/node_modules' | tee -a /etc/profile.d/node.sh
+   57  echo 'export PATH=${NODE_HOME}/bin:${PATH}' | tee -a /etc/profile.d/node.sh
+   58  source /etc/profile
+   59  npm config set registry https://registry.npm.taobao.org
+   60  npm get registry
+   61  npm install -g babel-cli@6.18.0
+   62  npm install -g express@4.14.0
+   63  npm install -g mocha@3.1.2
+   64  npm install -g pm2@2.2.3
+   65  npm install -g webpack@1.13.3
+   66  chown -R root.root /mnt/app/node
+   67  ls
+   68  ls -l
+   69  cd /mnt/app/
+   70  ls
+   71  ls -l
+   72  rm -rf java/
+   73  rm /etc/profile.d/java.sh 
+   74  source /etc/profile
+   75  ls
+   76  cd
+   77  cd /mnt/ops/app/
+   78  ls
+   79  rz
+   80  ls
+   81  tar xzf haproxy-1.7.2.tar.gz 
+   82  cd haproxy-1.7.2
+   83  ls
+   84  uname -a
+   85  make TARGET=generic PREFIX=/mnt/app/haproxy
+   86  make install PREFIX=/mnt/app/haproxy
+   87  ls -l /mnt/app/haproxy/
+   88  ls -l /mnt/app/haproxy/sbin/
+   89  echo 'HAPROXY_HOME=/mnt/app/haproxy' | tee /etc/profile.d/haproxy.sh
+   90  echo 'export HAPROXY_HOME=/mnt/app/haproxy' | tee /etc/profile.d/haproxy.sh
+   91  echo 'export HAPROXY_BIN=${HAPROXY_HOME}/sbin' | tee /etc/profile.d/haproxy.sh
+   92  echo 'export PATH=${HAPROXY_BIN}:$PATH' | tee /etc/profile.d/haproxy.sh
+   93  echo 'export HAPROXY_HOME=/mnt/app/haproxy' | tee /etc/profile.d/haproxy.sh
+   94  echo 'export HAPROXY_BIN=${HAPROXY_HOME}/sbin' | tee -a /etc/profile.d/haproxy.sh
+   95  echo 'export PATH=${HAPROXY_BIN}:$PATH' | tee -a /etc/profile.d/haproxy.sh
+   96  source /etc/profile
+   97  mkdir -p /mnt/app/haproxy/conf
+   98  ls
+   99  vim /mnt/app/haproxy/conf/haproxy.cfg
+  100  mkdir -p /mnt/log/haproxy
+  101  vim /mnt/app/haproxy/conf/haproxy.cfg
+  102  ls
+  103  find ./ -name haproxy*
+  104  find . -name haproxy*
+  105  ls
+  106  vim /mnt/app/haproxy/conf/haproxy.cfg
+  107  netstat -lntp
+  108  ip add
+  109  ls /mnt/app/
+  110  vim /mnt/app/haproxy/conf/haproxy.cfg
+  111  cd ..
+  112  useradd  -s /sbin/nologin haproxy
+  113  chown -R haproxy.haproxy /mnt/log/haproxy
+  114  cat /mnt/app/haproxy/conf/haproxy.cfg
+  115  /mnt/app/haproxy/sbin/haproxy --help
+  116  /mnt/app/haproxy/sbin/haproxy -c /mnt/app/haproxy/conf/haproxy.cfg 
+  117  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  118  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  119  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  120  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  121  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  122  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  123  haproxy -v
+  124  ls
+  125  cd haproxy-1.7.2
+  126  ls
+  127  ls examples/
+  128  vim examples/haproxy.init 
+  129  vim examples/haproxy.spec 
+  130  vim examples/haproxy.init 
+  131  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  132  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  133  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  134  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  135  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  136  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  137  ps -ef|grep haproxy
+  138  netstat -lntp
+  139  ip add
+  140  ps -ef|grep haproxy
+  141  pkill haproxy
+  142  ps -ef|grep haproxy
+  143  su - wisdom
+  144  ls -l /mnt/log/
+  145  ls -l /mnt/log/haproxy/
+  146  ls -l /mnt/app/
+  147  ls -l /mnt/app/haproxy/
+  148  ls -l /mnt/log/haproxy/haproxy.
+  149  ls -l /mnt/log/haproxy/haproxy.*
+  150  rm -rf /mnt/log/haproxy/haproxy.*
+  151  ls -l
+  152  vim /mnt/app/haproxy/conf/haproxy.cfg 
+  153  rm -rf /mnt/log/haproxy
+  154  /mnt/app/haproxy/sbin/haproxy -f /mnt/app/haproxy/conf/haproxy.cfg 
+  155  ls -l /mnt/app/haproxy/
+  156  cd /mnt/ops/
+  157  ls
+  158  cd app/
+  159  ls
+  160  cd ..
+  161  ls
+  162  cd app/
+  163  ls
+  164  rz
+  165  ls -l
+  166  mkdir test
+  167  cp cw-hms-web.zip test/
+  168  cd test/
+  169  ls
+  170  unzip cw-hms-web.zip 
+  171  ls
+  172  du -sh *
+  173  mv cw-hms-web /mnt/app/hms
+  174  cd
+  175  ls -l /mnt/app/node/
+  176  ls -l /mnt/app/node/lib/
+  177  ls -l /mnt/app/node/lib/node_modules/
+  178  su - wisdom
+  179  mv /mnt/app/hms /mnt/web/
+  180  chown -R wisdom.wisdom /mnt/web/hms
+  181  su - wisdom
+  182  mv /mnt/web/hms/ /mnt/app/
+  183  ls -l /mnt/app/
+  184  mv /mnt/app/hms /mnt/web/
+  185  su - wisdom
+  186  cd /mnt/web/hms/
+  187  ls
+  188  npm run build
+  189  cat /mnt/web/hms/npm-debug.log
+  190  node -v
+  191  whereis npm
+  192  cat /etc/profile.d/node.sh 
+  193  echo $NODE_PATH
+  194  npm run build
+  195  atool-build
+  196  npm install -g atool-build
+  197  ls
+  198  ls -l
+  199  ls
+  200  pwd
+  201  c d..
+  202  ls
+  203  cd ..
+  204  ls
+  205  cd ..
+  206  mv /mnt/web/hms /mnt/app/
+  207  cd /mnt/app/hms/
+  208  ls
+  209  npm run build
+  210  npm install -g clean-webpack-plugin
+  211  ls -l /mnt/app/node/lib/node_modules/
+  212  npm run build
+  213  npm install -g case-sensitive-paths-webpack-plugin
+  214  npm run build
+  215  ls
+  216  vim package.json 
+  217  npm run build
+  218  npm run build .
+  219  ls
+  220  npm install
+  221  ls -l
+  222  ls -l /mnt/app/node/
+  223  ls -l /mnt/app/node/lib/
+  224  ls -l /mnt/app/node/lib/node_modules/
+  225  ls
+  226  ls node_modules/
+  227  ls -l
+  228  ls node_modules
+  229  ls node_modules|grep express
+  230  ls node_modules|grep pm2
+  231  npm run build
+  232  npm start
+  233  npm run build
+  234  cp package.json /tmp/
+  235  cd ..
+  236  cd /mnt/ops/app/
+  237  ls
+  238  rm cw-hms-web -r
+  239  rm cw-hms-web -rf
+  240  ls
+  241  rz
+  242  ls
+  243  tar xzf a.tar.gz 
+  244  ls
+  245  mv cw-hms-web /mnt/app/hms
+  246  cd /mnt/app/h
+  247  cd /mnt/app/hms/
+  248  ls
+  249  ls *.json.gz
+  250  rm -f *.json.gz
+  251  ls
+  252  diff package.json /tmp/package.json 
+  253  npm install 
+  254  ls
+  255  ls node_modules/
+  256  ls
+  257  npm install 
+  258  npm run build
+  259  vim ./src/routes/mainroutes/testComponent/components/index.js
+  260  vim ./src/routes/mainroutes/0135210020110011001/grpcrmcorpform/components/config.js
+  261  ls -l
+  262  npm start 
+  263  babel-node ./server.js 
+  264  ls
+  265  ls server.js 
+  266  babel-node server.js 
+  267  cd ..
+  268  ls
+  269  cd /mnt/ops/app/
+  270  ls
+  271  rz
+  272  ls -l
+  273  tar xzf cloudwisdom_cw-hms-web.tar.gz 
+  274  ls
+  275  rm -rf cw-hms-web
+  276  tar xzf cloudwisdom_cw-hms-web.tar.gz 
+  277  ls
+  278  rm -rf /mnt/app/hms/
+  279  mv cw-hms-web /mnt/app/hms
+  280  cd /mnt/app/hms/
+  281  ls
+  282  npm install
+  283  npm run build
+  284  cd ..
+  285  ls
+  286  rm -rf hms/
+  287  ls
+  288  u can get information on how to open an issue for this project with:
+  289  git clone -b release/1.0 git@gitlab.brandwisdom.cn:cloudwisdom/cw-hms-web.git
+  290  ssh-keygen 
+  291  cat ~/.ssh/id_rsa.pub 
+  292  git clone -b release/1.0 git@gitlab.brandwisdom.cn:cloudwisdom/cw-hms-web.git
+  293  ls
+  294  mv cw-hms-web/hms
+  295  mv cw-hms-web hms
+  296  cd h
+  297  cd hms/
+  298  ls
+  299  npm install
+  300  npm run build
+  301  ls
+  302  npm run server
+  303  npm run server &
+  304  netstat -lntp
+  305  cd /mnt/app/nginx/
+  306  ls
+  307  cd conf/
+  308  ls
+  309  vim nginx.conf
+  310  ls -l /mnt/log/
+  311  cd
+  312  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  313  vim /mnt/app/nginx/conf/nginx.conf +51
+  314  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  315  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf 
+  316  netstat -lntp
+  317  ip add
+  318  cat /mnt/app/nginx/conf/nginx.conf
+  319  vim /mnt/app/nginx/conf/nginx.conf
+  320  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  321  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  322  vim /mnt/app/nginx/conf/nginx.conf
+  323  cat /mnt/log/nginx/nginx.log 
+  324  tail -f  /mnt/log/nginx/nginx.log 
+  325  cat /mnt/app/nginx/conf/nginx.conf
+  326  telnet 192.168.18.224 3000
+  327  vim /mnt/app/nginx/conf/nginx.conf
+  328  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  329  cd /mnt/ops/app/
+  330  ls
+  331  unzip --help
+  332  unzip -p cw-hms-web.zip 
+  333  ls
+  334  unzip cw-hms-web.zip 
+  335  ls
+  336  ls -l
+  337  cat /mnt/app/haproxy/conf/haproxy.cfg 
+  338  ls
+  339  cd /mnt
+  340  ls
+  341  cd ops
+  342  ls
+  343  cd app
+  344  ls
+  345  ls -ll
+  346  netstat -ntlp
+  347  cd nginx-1.10.2
+  348  ls
+  349  cd con
+  350  cd conf
+  351  ls
+  352  ls -ll
+  353  vi nginx.conf 
+  354  history
+  355  ls
+  356  clear
+  357  cd ..
+  358  ls
+  359  cd haproxy-1.7.2
+  360  ls
+  361  cd contrib/
+  362  cd ..
+  363  ls
+  364  cd scripts/
+  365  ls
+  366  cd ..
+  367  ls
+  368  cd src/
+  369  ls
+  370  cd ..
+  371  clear
+  372  ls
+  373  cd tests/'
+  374  cd tests
+  375  ls
+  376  cd ..
+  377  cd sbin
+  378  ls
+  379  pwd
+  380  cd ..
+  381  ls
+  382  cd ..
+  383  ls
+  384  cd ..
+  385  ls
+  386  cd app
+  387  ls
+  388  cd nginx/
+  389  ls
+  390  cd conf/
+  391  ls
+  392  vi nginx.conf
+  393  cat nginx.conf
+  394  clear
+  395  ls
+  396  cd ..
+  397  ls
+  398  cd ..
+  399  ls
+  400  cd hms
+  401  ls
+  402  cd ..
+  403  ls
+  404  cd node/
+  405  ls
+  406  cd ..
+  407  ls
+  408  cd haproxy/
+  409  ls
+  410  cd conf/
+  411  ls
+  412  cat haproxy.cfg 
+  413  cd ..
+  414  ls
+  415  cd ..
+  416  cd haproxy/
+  417  ls
+  418  cd sbin
+  419  ls
+  420  cd ..
+  421  cd 
+  422  cd ..
+  423  ls
+  424  ps -elf|grep haproxy
+  425  ps -elf|grep zookeeper
+  426  netstat -ntlp
+  427  cd /mnt/
+  428  cd app/
+  429  ls
+  430  cd /mnt/ops/app/
+  431  ls
+  432  unzip cw-hms-web.zip 
+  433  ls
+  434  cd /mnt/app/hms/
+  435  cd
+  436  ip add
+  437  ls
+  438  vim /mnt/app/nginx/conf/nginx.conf
+  439  ps -ef|grep nginx
+  440  vim /mnt/app/nginx/conf/nginx.conf
+  441  ls
+  442  df -h
+  443  ps -ef|grep nginx
+  444  ls
+  445  cd /mnt/app/h
+  446  cd /mnt/app/hms/
+  447  ls
+  448  ps -ef|grep node
+  449  history 
+  450  ps -ef|grep npm
+  451  netstat -lntp
+  452  ls
+  453  cd
+  454  rm -rf /mnt/app/hms/
+  455  ip add
+  456  git clone git@gitlab.brandwisdom.cn:cloudwisdom/cw-hms-web.git /mnt/app/hms
+  457  ls
+  458  vim cmd
+  459  ls -l
+  460  mv cmd comm
+  461  ls -l
+  462  cd /mnt/app/
+  463  ls
+  464  cd h
+  465  cd
+  466  cd /mnt/app/hms/
+  467  node install
+  468  cd
+  469  cd /mnt/app/hms/
+  470  npm install
+  471  cd
+  472  rm -rf /mnt/app/hms/
+  473  git clone -b release/1.0 git@gitlab.brandwisdom.cn:cloudwisdom/cw-hms-web.git /mnt/app/hms
+  474  cd /mnt/app/hms/
+  475  ip add
+  476  npm run build
+  477  ls
+  478  ls -l
+  479  cd src/
+  480  ls
+  481  vim CONFIG.js 
+  482  ls -l
+  483  vim /mnt/app/nginx/conf/nginx.conf
+  484  vim /etc/hosts
+  485  vim /mnt/app/ng
+  486  vim CONFIG.js 
+  487  vim /mnt/app/nginx/conf/nginx.conf
+  488  vim CONFIG.js 
+  489  ping java.test.com
+  490  telnet java.test.com 8080
+  491  ls
+  492  cd ..
+  493  ls
+  494  npm install
+  495  npm run build
+  496  ls
+  497  cd src/
+  498  ls
+  499  vim CONFIG.js 
+  500  ls
+  501  vim /mnt/app/nginx/conf/nginx.conf
+  502  ps -ef|grep nginx
+  503  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -t
+  504  /mnt/app/nginx/sbin/nginx -c /mnt/app/nginx/conf/nginx.conf -s reload
+  505  cd ..
+  506  ls
+  507  npm run server
+  508  npm run server &
+  509  来
+  510  ls -l
+  511  cd src/
+  512  ls
+  513  cat Con
+  514  cat CONFIG.js 
+  515  vim CONFIG.js 
+  516  ps -ef|grep node
+  517  kill -9  33414  
+  518  ps -ef|grep node
+  519  kill -9   33420 
+  520  ps -ef|grep node
+  521  cd
+  522  su - wisdom
+  523  cd /mnt/app/hms/
+  524  ls
+  525  npm run server
+  526  npm run server &
+  527  ls
+  528  vim src/CONFIG.js 
+  529  ps -ef|grep node
+  530  pkill node
+  531  ps -ef|grep node
+  532  npm run server &
+  533  ps -ef|grep node
+  534  ls
+  535  vim src/CONFIG.js 
+  536  ps -ef|grep node
+  537  pkill node
+  538  ps -ef|grep node
+  539  npm run server &
+  540  vim comm 
+  541  mv comm /mnt/ops/app/
+  542  cd /mnt/ops/app/
+  543  ls
+  544  ls -l
+  545  mv comm deploy_dont_delete
+  546  ls
+  547  vim deploy_dont_delete 
+  548  vim /etc/hosts
+  549  ls
+  550  vim deploy_dont_delete 
+  551  netstat -lntp
+  552  cd
+  553  ls
+  554  cd /mnt/app/hms/
+  555  ls
+  556  tail -f /mnt/app/hms/log/access-20170307.log
+  557  history
+  558  vim /mnt/app/nginx/conf/nginx.conf
+  559  cat /mnt/app/nginx/conf/nginx.conf
+  560  clear
+  561  cd /mnt
+  562  ls
+  563  cd app
+  564  ls
+  565  cd hms
+  566  ls
+  567  cd src
+  568  ls
+  569  cat CONFIG.js 
+  570  cd ..
+  571  ls
+  572  ps -elf|grep node
+  573  kill -9 33580
+  574  kill -9 33586
+  575  ps -elf|grep node
+  576  cd ..
+  577  npm i
+  578  cd hms/
+  579  ls
+  580  npm i
+  581  npm run build
+  582  npm run server &
+  583  netstat -ntlp
+  584  cd ..
+  585  ls
+  586   cd /mnt
+  587  ls
+  588  cd app
+  589  ls
+  590  ls -ll
+  591  cd nginx/
+  592  ls
+  593  ls -ll
+  594  pwd
+  595  deede
+  596  history
+  597  cd /mnt
+  598  ls
+  599  cd app
+  600  ls
+  601  cd ..
+  602  ls
+  603  cd data/
+  604  ls
+  605  cd ..
+  606  ls
+  607  cd ops
+  608  ls
+  609  cd app
+  610  ls
+  611  cat /etc/profile
+  612  clear
+  613  cat /etc/resolv.conf
+  614  cd /mnt
+  615  ls
+  616  ls -ll
+  617  cd app
+  618  ls
+  619  netstat -ntlp
+  620  uname -a
+  621  cat /etc/redhat-release
+  622  sudo su wisdom
+  623  cat /etc/resolv.conf 
+  624  cd /etc/sysconfig/network-scripts/
+  625  ls
+  626  ifconfig
+  627  route
+  628  history
+
+
